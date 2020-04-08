@@ -9,9 +9,11 @@ namespace HttpClientThrottling
     class Program
     {
         private static HttpClient httpClient = new HttpClient();
+        
         static async Task Main(string[] args)
         {
             var tasks = new List<Task>();
+            
             // here we set the max allowed concurrent request
             var throttler = new SemaphoreSlim(3);
 
@@ -27,11 +29,12 @@ namespace HttpClientThrottling
                     {
                         var result = await ExecuteRequest();
                         
-                        // let's wait here for 1 second here to honor the API's rate limit
+                        // let's wait here for 1 second to honor the API's rate limit
                         await Task.Delay(1000);
                     }
                     finally
                     {
+                        // here we release the throttler immediately
                         throttler.Release();
                     }
                 }));
