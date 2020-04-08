@@ -14,7 +14,7 @@ namespace HttpClientThrottling
         {
             var tasks = new List<Task>();
             
-            // here we set the max allowed concurrent request
+            // here we set the max allowed concurrent request in our case it is 3
             var throttler = new SemaphoreSlim(3);
 
             for (var i = 0; i < 12; i++)
